@@ -52,6 +52,14 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     name = config.get(CONF_NAME)
     adbkey = config.get(CONF_ADBKEY)
 
+    # make sure the "adbkey" file exists and is accessible
+    with open(adbkey) as _:
+        _LOGGER.info("ADB private key '%s' opens correctly", adbkey)
+
+    # make sure the "adbkey.pub" file exists and is accessible
+    with open(adbkey + '.pub') as _:
+        _LOGGER.info("ADB public key '%s' opens correctly", adbkey + '.pub')
+
     device = FireTVDevice(host, name, adbkey)
     adb_log = " using adbkey='{0}'".format(adbkey) if adbkey else ""
     if not device._firetv._adb:
